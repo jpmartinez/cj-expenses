@@ -1,0 +1,14 @@
+{
+  "private":true,
+  "workspaces": ["cj-client", "cj-server"],
+  "name": "cj-expenses",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently --kill-others \"cd cj-client && yarn dev\" \"cd cj-server && yarn dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
