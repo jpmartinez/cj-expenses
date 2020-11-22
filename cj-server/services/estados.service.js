@@ -1,7 +1,7 @@
 const XLSX = require("xlsx");
-const numeral = require("./numeral");
-
-const { bancos, bancosOffset, monedas } = require("./constantes");
+const numeral = require("../utils/numeral");
+const db = require("../database/knex");
+const { bancos, bancosOffset, monedas } = require("../utils/constantes");
 
 function getDescripcion(item, banco) {
     return banco === bancos.brou
@@ -17,7 +17,7 @@ function getMonto(item, banco) {
     };
 }
 
-function parseEstado(
+function procesarEstado(
     { banco = bancos.brou, moneda = monedas.peso, cuenta = 1, mes = "Enero" },
     file
 ) {
@@ -32,7 +32,7 @@ function parseEstado(
         .sheet_to_json(worksheet)
         .map((a) => ({ ...a, Fecha: XLSX.SSF.format("dd-MM-yyyy", a.Fecha) }));
 
-    return estado.map((item) => {
+    const result = estado.map((item) => {
         return {
             fecha: item.Fecha,
             cuenta,
@@ -42,6 +42,23 @@ function parseEstado(
             ...getMonto(item, banco),
         };
     });
+    return guardarEstado(result);
 }
 
-module.exports = parseEstado;
+function guardarEstado(estado) {
+    try {
+        return db.table("estados").insert(estado);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function getEstados() {
+    try {
+        return db.select().table("estados");
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+module.exports = { procesarEstado, getEstados };

@@ -1,12 +1,21 @@
 {
-  "private":true,
-  "workspaces": ["cj-client", "cj-server"],
+  "private": true,
+  "workspaces": [
+    "cj-client",
+    "cj-server"
+  ],
   "name": "cj-expenses",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently --kill-others \"cd cj-client && yarn dev\" \"cd cj-server && yarn dev\""
+    "dev": "concurrently --kill-others \"cd cj-client && yarn dev\" \"cd cj-server && yarn dev\"",
+    "install": "cd cj-client && yarn && cd ../cj-server && yarn",
+    "migrate:make": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" migrate:make ",
+    "migrate:latest": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" migrate:latest ",
+    "migrate:rollback": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" migrate:rollback ",
+    "seed:make": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" seed:make ",
+    "seed:run": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" seed:run "
   },
   "devDependencies": {
     "concurrently": "^5.3.0"

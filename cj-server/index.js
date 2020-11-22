@@ -2,10 +2,23 @@ const express = require("express");
 const formidable = require("formidable");
 const XLSX = require("xlsx");
 const fs = require("fs");
+const { procesarEstado, getEstados } = require("./services/estados.service");
+const { getCuentas } = require("./services/cuentas.services");
+
 const app = express();
 const port = process.env.PORT || 4000;
 
-const parseEstado = require("./estados.service");
+app.get("/cuentas", async (req, res) => {
+    const cuentas = await getCuentas();
+    res.status(200);
+    res.json(cuentas);
+});
+
+app.get("/estados", async (req, res) => {
+    const estados = await getEstados();
+    res.status(200);
+    res.json(estados);
+});
 
 app.post("/upload", (req, res) => {
     const form = formidable();
@@ -14,7 +27,7 @@ app.post("/upload", (req, res) => {
             next(err);
             return;
         }
-        res.json(parseEstado(fields, files.file));
+        procesarEstado(fields, files.file).then((result) => res.json(result));
     });
 });
 
