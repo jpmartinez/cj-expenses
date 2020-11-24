@@ -1,0 +1,44 @@
+@import "../../../App.scss";
+
+.field {
+    min-width: 110px;
+    padding: 4px 8px;
+    border-right: solid 1px $grey-lightest;
+    margin: 0 !important;
+}
+
+.field:last-child {
+    border: unset;
+}
+.field:first-child {
+    min-width: 50px;
+}
+
+.descripcion {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.categoria {
+    min-width: 150px;
+}
+
+.debito {
+    font-weight: bold;
+    color: darken($red, 20%);
+}
+
+.credito {
+    font-weight: bold;
+    color: darken($green, 20%);
+}
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0 20px;
+    text-align: right;
+}
+
+.row:nth-child(2n) {
+    background-color: $primary-light;
+}

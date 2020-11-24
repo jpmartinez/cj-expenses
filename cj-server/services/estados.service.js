@@ -2,11 +2,11 @@ const XLSX = require("xlsx");
 const numeral = require("../utils/numeral");
 const db = require("../database/knex");
 const { bancos, bancosOffset, monedas } = require("../utils/constantes");
+const { v4: uuidv4 } = require("uuid");
+const { getCategorias, updateCategoria } = require("./categorias.services");
 
 function getDescripcion(item, banco) {
-    return banco === bancos.brou
-        ? item["Descripción"]
-        : item["Tipo Movimiento"];
+    return banco === bancos.brou ? item["Descripción"] : item["Tipo Movimiento"];
 }
 
 function getMonto(item, banco) {
@@ -17,10 +17,7 @@ function getMonto(item, banco) {
     };
 }
 
-function procesarEstado(
-    { banco = bancos.brou, moneda = monedas.peso, cuenta = 1, mes = "Enero" },
-    file
-) {
+async function parseEstado({ banco = bancos.brou, moneda = monedas.peso, cuenta = 1, mes = "Enero" }, file) {
     var workbook = XLSX.readFile(file.path);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     var range = XLSX.utils.decode_range(worksheet["!ref"]);
@@ -32,22 +29,29 @@ function procesarEstado(
         .sheet_to_json(worksheet)
         .map((a) => ({ ...a, Fecha: XLSX.SSF.format("dd-MM-yyyy", a.Fecha) }));
 
-    const result = estado.map((item) => {
-        return {
-            fecha: item.Fecha,
-            cuenta,
-            mes,
-            moneda,
-            descripcion: getDescripcion(item, banco),
-            ...getMonto(item, banco),
-        };
+    const estadoId = uuidv4();
+
+    const result = [];
+    estado.forEach((item) => {
+        if (!!item.Fecha.trim() && !item.Fecha.includes("información"))
+            result.push({
+                fecha: item.Fecha,
+                cuenta,
+                estadoId,
+                mes,
+                descripcion: getDescripcion(item, banco),
+                ...getMonto(item, banco),
+            });
     });
-    return guardarEstado(result);
+
+    await guardarEstado(result);
+    return estadoId;
 }
 
-function guardarEstado(estado) {
+async function guardarEstado(data) {
     try {
-        return db.table("estados").insert(estado);
+        const estado = await procesarEstado(data);
+        return await db.table("estados").insert(estado);
     } catch (error) {
         console.error(error);
     }
@@ -55,10 +59,58 @@ function guardarEstado(estado) {
 
 function getEstados() {
     try {
-        return db.select().table("estados");
+        return db
+            .table("estados")
+            .join("cuentas", "estados.cuenta", "cuentas.id")
+            .distinct("estados.estadoId", "estados.mes", "cuentas.nombre");
     } catch (error) {
         console.error(error);
     }
 }
 
-module.exports = { procesarEstado, getEstados };
+function getEstado(estadoId) {
+    try {
+        return db.select().table("estados").where({ estadoId }).then();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function updateEstado(data) {
+    try {
+        const categorias = await getCategorias();
+
+        for (let i = 0; i < data.length; i++) {
+            const item = data[i];
+            const categoria = categorias.find((c) => c.id === parseInt(item.categoria));
+            if (!!categoria && !categoria.matches.includes(item.descripcion)) {
+                categoria.matches.push(item.descripcion);
+                await updateCategoria(categoria);
+            }
+
+            await db.table("estados").update(item).where({ id: item.id });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function procesarEstado(estado) {
+    try {
+        const categorias = await getCategorias();
+        for (let i = 0; i < estado.length; i++) {
+            const item = estado[i];
+            categorias.forEach(({ id, matches }) => {
+                if (matches.includes(item.descripcion)) {
+                    item.categoria = id;
+                    return;
+                }
+            });
+        }
+        return estado;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+module.exports = { parseEstado, getEstados, getEstado, updateEstado };
