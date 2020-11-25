@@ -7,7 +7,7 @@ import IngresarEstado from "./components/ingresar-estado/IngresarEstado";
 function App() {
     return (
         <Router>
-            <nav className="navbar has-background-primary" role="navigation" aria-label="main navigation">
+            <nav className="navbar has-background-primary-dark" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
                     <a className="navbar-item" href="https://bulma.io">
                         <img

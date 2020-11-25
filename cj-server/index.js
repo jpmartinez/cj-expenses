@@ -3,8 +3,9 @@ const formidable = require("formidable");
 const XLSX = require("xlsx");
 const fs = require("fs");
 const { parseEstado, getEstados, getEstado, updateEstado } = require("./services/estados.service");
-const { getCuentas } = require("./services/cuentas.services");
-const { getCategorias } = require("./services/categorias.services");
+const { getCuentas } = require("./services/cuentas.service");
+const { getCategorias } = require("./services/categorias.service");
+const { getGastosMes } = require("./services/reportes.service");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -16,6 +17,12 @@ app.get("/cuentas", async (req, res) => {
     const cuentas = await getCuentas();
     res.status(200);
     res.json(cuentas);
+});
+
+app.get("/gastos-mes", async (req, res) => {
+    const gastos = await getGastosMes(req.query);
+    res.status(200);
+    res.json(gastos);
 });
 
 app.get("/categorias", async (req, res) => {

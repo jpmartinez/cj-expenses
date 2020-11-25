@@ -3,7 +3,7 @@ const numeral = require("../utils/numeral");
 const db = require("../database/knex");
 const { bancos, bancosOffset, monedas } = require("../utils/constantes");
 const { v4: uuidv4 } = require("uuid");
-const { getCategorias, updateCategoria } = require("./categorias.services");
+const { getCategorias, updateCategoria } = require("./categorias.service");
 
 function getDescripcion(item, banco) {
     return banco === bancos.brou ? item["Descripción"] : item["Tipo Movimiento"];
