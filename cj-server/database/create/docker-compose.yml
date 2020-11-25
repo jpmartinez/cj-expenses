@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+    postgres-cj-expenses:
+        image: postgres:13.1-alpine
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - PGPORT=5435
+        volumes:
+            - cj-expenses:/var/lib/postgresql/data
+        ports:
+            - "5435:5435"
+        restart: always
+
+volumes:
+    cj-expenses:

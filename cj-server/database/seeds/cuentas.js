@@ -1,7 +1,7 @@
 exports.seed = async function (knex) {
     const tableName = "cuentas";
     await knex(tableName).del();
-    await knex("sqlite_sequence").update("seq", 0).where({ name: tableName });
+    await knex.raw(`ALTER SEQUENCE cuentas_id_seq RESTART`);
     return await knex(tableName).insert([
         { nombre: "JP Santander Pesos", banco: "Santander", moneda: "Pesos" },
         { nombre: "JP Santander Dolares", banco: "Santander", moneda: "Dolares" },

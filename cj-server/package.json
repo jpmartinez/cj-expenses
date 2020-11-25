@@ -1,27 +1,30 @@
 {
-	"name": "cj-server",
-	"version": "1.0.0",
-	"main": "index.js",
-	"license": "MIT",
-	"dependencies": {
-		"body-parser": "^1.19.0",
-		"express": "^4.17.1",
-		"formidable": "^1.2.2",
-		"knex": "^0.21.12",
-		"numeral": "^2.0.6",
-		"sqlite3": "^5.0.0",
-		"uuid": "^8.3.1",
-		"xlsx": "^0.16.9"
-	},
-	"scripts": {
-		"dev": "nodemon index.js",
-		"migrate:make": "yarn knex --knexfile \"./database/knexfile.js\" migrate:make ",
-		"migrate:latest": "yarn knex --knexfile \"./database/knexfile.js\" migrate:latest ",
-		"migrate:rollback": "yarn knex --knexfile \"./database/knexfile.js\" migrate:rollback ",
-		"seed:make": "yarn knex --knexfile \"./database/knexfile.js\" seed:make ",
-		"seed:run": "yarn knex --knexfile \"./database/knexfile.js\" seed:run "
-	},
-	"devDependencies": {
-		"nodemon": "^2.0.6"
-	}
+    "name": "cj-server",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "formidable": "^1.2.2",
+        "knex": "^0.21.12",
+        "numeral": "^2.0.6",
+        "pg": "^8.5.1",
+        "sqlite3": "^5.0.0",
+        "uuid": "^8.3.1",
+        "xlsx": "^0.16.9"
+    },
+    "scripts": {
+        "dev": "nodemon index.js",
+        "migrate:make": "yarn knex --knexfile \"./database/knexfile.js\" migrate:make ",
+        "migrate:latest": "yarn knex --knexfile \"./database/knexfile.js\" migrate:latest ",
+        "migrate:rollback": "yarn knex --knexfile \"./database/knexfile.js\" migrate:rollback ",
+        "seed:make": "yarn knex --knexfile \"./database/knexfile.js\" seed:make ",
+        "seed:run": "yarn knex --knexfile \"./database/knexfile.js\" seed:run ",
+        "database:docker-server": "docker-compose --file database/create/docker-compose.yml up -d",
+        "database:create": "knex seed:run --knexfile ./database/create/knexfile.js"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
 }

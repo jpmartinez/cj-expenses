@@ -1,6 +1,6 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.createTableIfNotExists("categorias", function (table) {
-        table.increments("id");
+    return knex.schema.createTable("categorias", function (table) {
+        table.increments("id").primary();
         table.string("nombre");
         table.text("matches").notNullable().defaultTo("[]");
     });

@@ -1,8 +1,8 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.createTableIfNotExists("estados", function (table) {
-        table.increments("id");
+    return knex.schema.createTable("estados", function (table) {
+        table.increments("id").primary();
         table.string("estadoId");
-        table.string("cuenta").references("id").inTable("cuentas");
+        table.integer("cuenta").references("id").inTable("cuentas");
         table.string("mes");
         table.datetime("fecha");
         table.string("descripcion");
