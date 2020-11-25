@@ -1,12 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const formidable = require("formidable");
-const XLSX = require("xlsx");
-const fs = require("fs");
 const { parseEstado, getEstados, getEstado, updateEstado } = require("./services/estados.service");
 const { getCuentas } = require("./services/cuentas.service");
 const { getCategorias } = require("./services/categorias.service");
 const { getGastosMes } = require("./services/reportes.service");
-const bodyParser = require("body-parser");
+const { ingresarMovimientoCaja } = require("./services/caja.service");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -45,6 +44,13 @@ app.get("/estados/:id", async (req, res) => {
 
 app.put("/estados", async (req, res) => {
     await updateEstado(req.body);
+    res.status(200);
+    res.end();
+});
+
+app.post("/caja", async (req, res) => {
+    console.info(req.body);
+    await ingresarMovimientoCaja(req.body);
     res.status(200);
     res.end();
 });

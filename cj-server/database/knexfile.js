@@ -9,5 +9,4 @@ module.exports = {
     seeds: {
         directory: path.join(__dirname, "/seeds"),
     },
-    debug: true,
 };
