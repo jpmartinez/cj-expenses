@@ -10,6 +10,9 @@
     "license": "MIT",
     "scripts": {
         "dev": "concurrently --kill-others \"cd cj-client && yarn dev\" \"cd cj-server && yarn dev\"",
+        "start": "cd cj-server && yarn start",
+        "build": "sh build.sh",
+        "build:serve": "yarn build && yarn serve",
         "install": "cd cj-client && yarn && cd ../cj-server && yarn",
         "migrate:make": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" migrate:make ",
         "migrate:latest": "cd cj-server && yarn knex --knexfile \"./database/knexfile.js\" migrate:latest ",

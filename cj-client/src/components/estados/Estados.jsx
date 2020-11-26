@@ -8,7 +8,7 @@ function Estados() {
 
     useEffect(
         () =>
-            fetch("/estados")
+            fetch("/api/estados")
                 .then((res) => res.json())
                 .then((estados) => setEstados(estados)),
         []

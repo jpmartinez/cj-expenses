@@ -8,7 +8,7 @@ function Caja() {
 
     useEffect(
         () =>
-            fetch("/categorias")
+            fetch("/api/categorias")
                 .then((res) => res.json())
                 .then((categorias) => setCategorias(categorias)),
         []
@@ -23,7 +23,7 @@ function Caja() {
 
     const [onSubmit, onChange, reset, { fields, data }] = useForm(() => {
         setLoading(true);
-        return fetch("/caja", {
+        return fetch("/api/caja", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

@@ -9,7 +9,7 @@ function UploadForm({ setEstado }) {
 
     useEffect(
         () =>
-            fetch("/cuentas")
+            fetch("/api/cuentas")
                 .then((res) => res.json())
                 .then((cuentas) => setCuentas(cuentas)),
         []
@@ -22,7 +22,7 @@ function UploadForm({ setEstado }) {
         Object.keys(fields).forEach((key) => formData.append(key, fields[key]));
         formData.append("file", fileInput.current.files[0]);
 
-        fetch("/upload", {
+        fetch("/api/upload", {
             method: "POST",
             body: formData,
         })

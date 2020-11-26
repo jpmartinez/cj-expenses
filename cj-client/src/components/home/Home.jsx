@@ -9,7 +9,7 @@ function Home() {
     const mes = Object.values(meses)[new Date().getMonth()];
     useEffect(
         () =>
-            fetch(`/gastos-mes?mes=${mes}`)
+            fetch(`/api/gastos-mes?mes=${mes}`)
                 .then((res) => res.json())
                 .then((report) =>
                     setGastos(

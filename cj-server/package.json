@@ -16,6 +16,7 @@
     },
     "scripts": {
         "dev": "nodemon index.js",
+        "start": "node index.js",
         "migrate:make": "yarn knex --knexfile \"./database/knexfile.js\" migrate:make ",
         "migrate:latest": "yarn knex --knexfile \"./database/knexfile.js\" migrate:latest ",
         "migrate:rollback": "yarn knex --knexfile \"./database/knexfile.js\" migrate:rollback ",

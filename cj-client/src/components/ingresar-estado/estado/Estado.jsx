@@ -10,7 +10,7 @@ function Estado({ estado }) {
     const onClick = () => {
         setLoading(true);
         const body = JSON.stringify(estadoCuenta);
-        return fetch(`/estados`, {
+        return fetch(`/api/estados`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -28,7 +28,7 @@ function Estado({ estado }) {
     useEffect(() => {
         setLoading(true);
 
-        fetch(`/estados/${estado}`)
+        fetch(`/api/estados/${estado}`)
             .then((response) => response.json())
             .then((estadoCuenta) => {
                 setEstadoCuenta(estadoCuenta);
@@ -37,7 +37,7 @@ function Estado({ estado }) {
     }, [estado]);
     useEffect(
         () =>
-            fetch("/categorias")
+            fetch("/api/categorias")
                 .then((res) => res.json())
                 .then((categorias) => setCategorias(categorias)),
         []
