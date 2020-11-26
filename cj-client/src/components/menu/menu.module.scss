@@ -1,0 +1,21 @@
+@import "../../App.scss";
+
+.logo {
+    height: 70px;
+    font-weight: 200;
+    font-size: 24px;
+    color: $white;
+    span {
+        padding-left: 4px;
+    }
+}
+
+.link {
+    color: $white;
+}
+.link:active,
+.link:focus,
+.link:hover {
+    color: $primary-dark !important;
+    font-weight: bolder;
+}
