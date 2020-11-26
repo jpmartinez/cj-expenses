@@ -5,7 +5,7 @@ import styles from "./menu.module.scss";
 
 function Menu({ children }) {
     const location = useLocation();
-    const showLinks = location.pathname !== "/caja";
+    const showLinks = location.pathname.includes("/admin");
     return (
         <nav className="navbar has-background-primary-dark" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
@@ -16,13 +16,13 @@ function Menu({ children }) {
             </div>
             {showLinks && (
                 <div className="navbar-end mr-2 ">
-                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/">
+                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/admin">
                         Home
                     </Link>
-                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/upload">
+                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/admin/upload">
                         Ingresar Estado
                     </Link>
-                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/estados">
+                    <Link className={joinClassNames("navbar-item ", styles.link)} to="/admin/estados">
                         Ver Estados
                     </Link>
                 </div>

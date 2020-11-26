@@ -1,7 +1,6 @@
 const db = require("../database/knex");
 
 function getGastosMes({ mes }) {
-    console.info(mes);
     const query = db
         .table("estados")
         .join("categorias", "estados.categoria", "categorias.id")

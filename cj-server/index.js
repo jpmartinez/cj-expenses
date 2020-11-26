@@ -52,7 +52,6 @@ app.put("/api/estados", async (req, res) => {
 });
 
 app.post("/api/caja", async (req, res) => {
-    console.info(req.body);
     await ingresarMovimientoCaja(req.body);
     res.status(200);
     res.end();

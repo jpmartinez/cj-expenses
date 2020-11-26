@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const processFormData = (data) => {
-    console.info(data);
     if (!Object.keys(data).length) {
         return {};
     }

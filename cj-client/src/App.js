@@ -12,17 +12,17 @@ function App() {
             <Menu />
             <section className="section ">
                 <Switch>
-                    <Route path="/caja">
-                        <Caja />
-                    </Route>
-                    <Route path="/upload">
+                    <Route path="/admin/upload">
                         <IngresarEstado />
                     </Route>
-                    <Route path="/estados">
+                    <Route path="/admin/estados">
                         <Estados />
                     </Route>
-                    <Route path="/">
+                    <Route path="/admin">
                         <Home />
+                    </Route>
+                    <Route path="/">
+                        <Caja />
                     </Route>
                 </Switch>
             </section>
