@@ -4,6 +4,7 @@ const db = require("../database/knex");
 const { bancos, bancosOffset, monedas } = require("../utils/constantes");
 const { v4: uuidv4 } = require("uuid");
 const { getCategorias, updateCategoria } = require("./categorias.service");
+const moment = require("moment");
 
 function getDescripcion(item, banco) {
     return banco === bancos.brou ? item["Descripción"] : item["Tipo Movimiento"];
@@ -35,7 +36,7 @@ async function parseEstado({ banco = bancos.brou, moneda = monedas.peso, cuenta 
     estado.forEach((item) => {
         if (!!item.Fecha.trim() && !item.Fecha.includes("información"))
             result.push({
-                fecha: item.Fecha,
+                fecha: moment(item.Fecha, "DD/MM/YYYY"),
                 cuenta,
                 estadoId,
                 mes,
