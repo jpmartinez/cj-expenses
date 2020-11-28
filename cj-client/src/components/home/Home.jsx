@@ -14,10 +14,10 @@ function Home() {
                 .then((report) =>
                     setGastos(
                         report
-                            .filter((g) => !!g.debito)
+                            .filter((g) => !!g.monto)
                             .map((g) => ({
-                                name: g.nombre,
-                                value: roundTwoDecimals(g.debito),
+                                name: g.categoria,
+                                value: roundTwoDecimals(g.monto),
                             }))
                     )
                 ),

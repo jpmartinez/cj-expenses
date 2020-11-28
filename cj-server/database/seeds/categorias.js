@@ -12,5 +12,6 @@ exports.seed = async function (knex) {
         { nombre: "Combustible" },
         { nombre: "Varios" },
         { nombre: "Servicio Doméstico" },
+        { nombre: "Efectivo" },
     ]);
 };

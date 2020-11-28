@@ -6,8 +6,8 @@ exports.up = function (knex, Promise) {
         table.string("mes");
         table.datetime("fecha");
         table.string("descripcion");
-        table.decimal("debito");
-        table.decimal("credito");
+        table.decimal("debito").notNullable().defaultTo(0);
+        table.decimal("credito").notNullable().defaultTo(0);
         table.integer("categoria").references("id").inTable("categorias");
     });
 };

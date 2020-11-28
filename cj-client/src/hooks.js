@@ -7,6 +7,8 @@ const processFormData = (data) => {
     return Object.keys(data).reduce((res, key) => ({ ...res, [key]: { name: key, value: data[key] } }), {});
 };
 export const useForm = (callback, initialState = {}) => {
+    console.info(initialState);
+    console.info(processFormData(initialState));
     const [fields, setFields] = useState(processFormData(initialState));
     const [data, setData] = useState(initialState);
 

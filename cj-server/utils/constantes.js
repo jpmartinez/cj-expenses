@@ -28,9 +28,12 @@ const bancosOffset = {
     [bancos.brou]: 17,
 };
 
+const CAT_RETIRO_EFECTIVO = "Efectivo";
+
 module.exports = {
     bancos,
     monedas,
     meses,
     bancosOffset,
+    CAT_RETIRO_EFECTIVO,
 };
