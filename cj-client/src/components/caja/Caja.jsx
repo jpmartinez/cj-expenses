@@ -14,7 +14,7 @@ function Caja() {
         categoria: "",
         monto: "",
     });
-
+    //eslint-disable-next-line
     const [onSubmit, onChange, reset, change, { fields, data }] = useForm(() => {
         setLoading(true);
         return fetch("/api/caja", {
@@ -46,6 +46,7 @@ function Caja() {
                 });
                 setCategorias(categorias);
             });
+        //eslint-disable-next-line
     }, []);
 
     return (

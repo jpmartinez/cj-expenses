@@ -76,14 +76,15 @@ function Item({ id, ix, fecha, debito, credito, descripcion, categoria, categori
         setSelectMes(e.target.value);
         onChange(id, e.target);
     };
+
+    const monto = debito > 0 ? debito : credito;
     return (
         <div className={joinClassNames("panel-block", styles.row)}>
             <span className={styles.field}>{ix}</span>
             <span className={styles.field}>{fecha}</span>
             <span className={joinClassNames(styles.field, styles.descripcion)}>{descripcion}</span>
-            <span className={joinClassNames(styles.field, styles.debito)}>{!!debito && debito}</span>
-            <span className={joinClassNames(styles.field, styles.credito)}>{!!credito && credito}</span>
-            <div className={joinClassNames(styles.field, styles.categoria)}>
+            <span className={joinClassNames(styles.field, debito > 0 ? styles.debito : styles.credito)}>{monto}</span>
+            <div className={styles.field}>
                 <div className="control">
                     <div className="select is-small">
                         <select name="mes" id="mes" value={selectMes} onChange={handleChangeMes}>

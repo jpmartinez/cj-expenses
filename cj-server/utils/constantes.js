@@ -28,6 +28,11 @@ const bancosOffset = {
     [bancos.brou]: 17,
 };
 
+const bancosCeldaCuenta = {
+    santander: "B10",
+    brou: "A5",
+};
+
 const CAT_RETIRO_EFECTIVO = "Efectivo";
 
 module.exports = {
@@ -35,5 +40,6 @@ module.exports = {
     monedas,
     meses,
     bancosOffset,
+    bancosCeldaCuenta,
     CAT_RETIRO_EFECTIVO,
 };

@@ -1,7 +1,7 @@
 @import "../../../App.scss";
 
 .field {
-    min-width: 110px;
+    width: 120px;
     padding: 4px 8px;
     border-right: solid 1px $grey-lightest;
     margin: 0 !important;
@@ -11,16 +11,19 @@
     border: unset;
 }
 .field:first-child {
-    min-width: 50px;
+    width: 50px;
 }
 
 .descripcion {
     flex-grow: 1;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .categoria {
-    min-width: 150px;
+    width: 150px;
 }
 
 .debito {
@@ -34,7 +37,6 @@
 }
 .row {
     display: flex;
-    justify-content: space-evenly;
     padding: 0 20px;
     text-align: right;
 }

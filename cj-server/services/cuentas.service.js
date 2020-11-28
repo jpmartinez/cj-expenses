@@ -1,8 +1,12 @@
 const db = require("../database/knex");
 
-function getCuentas() {
+function getCuentas(where) {
     try {
-        return db.select().table("cuentas");
+        const query = db.select().table("cuentas");
+        if (where) {
+            query.where(where);
+        }
+        return query;
     } catch (error) {
         console.error(error);
     }
