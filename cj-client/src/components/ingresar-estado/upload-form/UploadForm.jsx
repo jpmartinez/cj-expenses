@@ -26,7 +26,7 @@ function UploadForm({ setEstado }) {
         moneda: "",
     };
 
-    const [onSubmit, onChange, _, { fields, data }] = useForm(() => {
+    const [onSubmit, onChange, reset, change, { fields, data }] = useForm(() => {
         const formData = new FormData();
         Object.keys(data).forEach((key) => formData.append(key, data[key]));
         formData.append("file", fileInput.current.files[0]);
@@ -42,7 +42,6 @@ function UploadForm({ setEstado }) {
             });
     }, initialData);
 
-    console.info(fields);
     if (loading) {
         return <div>Loading</div>;
     } else {

@@ -23,6 +23,8 @@ export const meses = {
     diciembre: "Diciembre",
 };
 
+export const CAT_GASTOS_DEFAULT = "Compras Hogar";
+
 export const colores = [
     "#FFB399",
     "#FF33FF",

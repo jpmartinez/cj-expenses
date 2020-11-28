@@ -7,8 +7,6 @@ const processFormData = (data) => {
     return Object.keys(data).reduce((res, key) => ({ ...res, [key]: { name: key, value: data[key] } }), {});
 };
 export const useForm = (callback, initialState = {}) => {
-    console.info(initialState);
-    console.info(processFormData(initialState));
     const [fields, setFields] = useState(processFormData(initialState));
     const [data, setData] = useState(initialState);
 
@@ -22,17 +20,31 @@ export const useForm = (callback, initialState = {}) => {
 
     const onChange = (event) => {
         event.persist();
-        setFields((fields) => ({
+        setFields({
             ...fields,
             [event.target.name]: {
                 name: event.target.name,
                 value: event.target.value,
             },
-        }));
-        setData((fields) => ({
-            ...fields,
+        });
+        setData({
+            ...data,
             [event.target.name]: event.target.value,
-        }));
+        });
+    };
+
+    const change = (field, value) => {
+        setFields({
+            ...fields,
+            [field]: {
+                name: field,
+                value: value,
+            },
+        });
+        setData({
+            ...data,
+            [field]: value,
+        });
     };
 
     const reset = () => {
@@ -40,5 +52,5 @@ export const useForm = (callback, initialState = {}) => {
         setFields(processFormData(initialState));
     };
 
-    return [onSubmit, onChange, reset, { fields, data }];
+    return [onSubmit, onChange, reset, change, { fields, data }];
 };

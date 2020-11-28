@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
-import { meses } from "../../constantes";
+import { CAT_GASTOS_DEFAULT, meses } from "../../constantes";
 import { useForm } from "../../hooks";
 
 function Caja() {
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(
-        () =>
-            fetch("/api/categorias")
-                .then((res) => res.json())
-                .then((categorias) => setCategorias(categorias)),
-        []
-    );
     const mes = Object.values(meses)[new Date().getMonth()];
-    const initialData = {
+
+    const [initialData, setInitialData] = useState({
         mes,
         descripcion: "",
         categoria: "",
         monto: "",
-    };
+    });
 
-    const [onSubmit, onChange, reset, { fields, data }] = useForm(() => {
+    const [onSubmit, onChange, reset, change, { fields, data }] = useForm(() => {
         setLoading(true);
         return fetch("/api/caja", {
             method: "POST",
@@ -35,6 +29,24 @@ function Caja() {
             })
             .catch((error) => console.error(error));
     }, initialData);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch("/api/categorias")
+            .then((res) => res.json())
+            .then((categorias) => {
+                setLoading(false);
+                const categoria = categorias.find((c) => c.nombre === CAT_GASTOS_DEFAULT).id;
+                change("categoria", categoria);
+                setInitialData({
+                    mes,
+                    descripcion: "",
+                    categoria,
+                    monto: "",
+                });
+                setCategorias(categorias);
+            });
+    }, []);
 
     return (
         <div className="panel is-primary">
