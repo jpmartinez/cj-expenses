@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { meses } from "../../../constantes";
 import { joinClassNames } from "../../../helpers";
 import styles from "./estado.module.scss";
 
@@ -19,9 +20,9 @@ function Estado({ estado }) {
         }).then(() => setLoading(false));
     };
 
-    const onChange = (id, categoria) => {
+    const onChange = (id, field) => {
         const index = estadoCuenta.findIndex((item) => item.id === id);
-        estadoCuenta[index] = { ...estadoCuenta[index], categoria };
+        estadoCuenta[index] = { ...estadoCuenta[index], [`${field.name}`]: field.value };
         setEstadoCuenta(estadoCuenta);
     };
 
@@ -64,11 +65,16 @@ function Estado({ estado }) {
     }
 }
 
-function Item({ id, ix, fecha, debito, credito, descripcion, categoria, categorias, onChange }) {
-    const [selectValue, setSelectValue] = useState(!!categoria ? categoria : "");
-    const handleChange = (e) => {
-        setSelectValue(e.target.value);
-        onChange(id, e.target.value);
+function Item({ id, ix, fecha, debito, credito, descripcion, categoria, categorias, onChange, mes }) {
+    const [selectCategoria, setSelectCategoria] = useState(!!categoria ? categoria : "");
+    const handleChangeCategoria = (e) => {
+        setSelectCategoria(e.target.value);
+        onChange(id, e.target);
+    };
+    const [selectMes, setSelectMes] = useState(mes);
+    const handleChangeMes = (e) => {
+        setSelectMes(e.target.value);
+        onChange(id, e.target);
     };
     return (
         <div className={joinClassNames("panel-block", styles.row)}>
@@ -80,7 +86,26 @@ function Item({ id, ix, fecha, debito, credito, descripcion, categoria, categori
             <div className={joinClassNames(styles.field, styles.categoria)}>
                 <div className="control">
                     <div className="select is-small">
-                        <select name="categoria" id="categoria" value={selectValue} onChange={handleChange}>
+                        <select name="mes" id="mes" value={selectMes} onChange={handleChangeMes}>
+                            <option value={""}>{}</option>
+                            {Object.values(meses).map((mes) => (
+                                <option key={mes} value={mes}>
+                                    {mes}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div className={joinClassNames(styles.field, styles.categoria)}>
+                <div className="control">
+                    <div className="select is-small">
+                        <select
+                            name="categoria"
+                            id="categoria"
+                            value={selectCategoria}
+                            onChange={handleChangeCategoria}
+                        >
                             <option value={""}>{}</option>
                             {categorias.map((categoria) => (
                                 <option key={categoria.id} value={categoria.id}>

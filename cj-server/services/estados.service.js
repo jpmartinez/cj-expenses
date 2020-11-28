@@ -5,6 +5,7 @@ const { bancos, bancosOffset, monedas } = require("../utils/constantes");
 const { v4: uuidv4 } = require("uuid");
 const { getCategorias, updateCategoria } = require("./categorias.service");
 const moment = require("moment");
+const e = require("express");
 
 function getDescripcion(item, banco) {
     return banco === bancos.brou ? item["Descripción"] : item["Tipo Movimiento"];
@@ -69,9 +70,10 @@ function getEstados() {
     }
 }
 
-function getEstado(estadoId) {
+async function getEstado(estadoId) {
     try {
-        return db.select().table("estados").where({ estadoId }).then();
+        const estado = await db.select().table("estados").where({ estadoId });
+        return estado.map((e) => ({ ...e, fecha: moment(e.fecha).format("DD/MM/YYYY") }));
     } catch (error) {
         console.error(error);
     }
@@ -83,6 +85,7 @@ async function updateEstado(data) {
 
         for (let i = 0; i < data.length; i++) {
             const item = data[i];
+            item.fecha = moment(item.fecha, "DD/MM/YYYY");
             const categoria = categorias.find((c) => c.id === parseInt(item.categoria));
             if (!!categoria && !categoria.matches.includes(item.descripcion)) {
                 categoria.matches.push(item.descripcion);
