@@ -69,7 +69,6 @@ async function getInfoBanco(worksheet) {
     throw new Error("No existe la cuenta");
 }
 
-function procesarNroCuenta(params) {}
 async function guardarEstado(data) {
     try {
         const estado = await procesarEstado(data);
@@ -99,7 +98,7 @@ async function getEstado(estadoId) {
     }
 }
 
-async function updateEstado(data) {
+async function updateEstados(data) {
     try {
         const categorias = await getCategorias();
 
@@ -137,4 +136,4 @@ async function procesarEstado(estado) {
     }
 }
 
-module.exports = { parseEstado, getEstados, getEstado, updateEstado };
+module.exports = { parseEstado, getEstados, getEstado, updateEstados };

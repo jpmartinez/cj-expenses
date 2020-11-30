@@ -22,7 +22,7 @@ function UploadForm({ setEstado }) {
         const formData = new FormData();
         Object.keys(data).forEach((key) => formData.append(key, data[key]));
         formData.append("file", fileInput.current.files[0]);
-        fetch("/api/upload", {
+        fetch("/api/estados", {
             method: "POST",
             body: formData,
         })
