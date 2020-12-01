@@ -19,6 +19,7 @@ function UploadForm({ setEstado }) {
         const formData = new FormData();
         Object.keys(data).forEach((key) => formData.append(key, data[key]));
         formData.append("file", fileInput.current.files[0]);
+
         fetch("/api/estados", {
             method: "POST",
             body: formData,
@@ -28,7 +29,8 @@ function UploadForm({ setEstado }) {
                 setLoading(false);
                 setUploaded(true);
                 setEstado(result);
-            });
+            })
+            .catch((error) => console.error(error));
     }, initialData);
 
     if (loading) {

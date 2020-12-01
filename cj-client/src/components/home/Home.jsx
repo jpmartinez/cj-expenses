@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { colores, meses } from "../../constantes";
-import { joinClassNames, roundTwoDecimals } from "../../helpers";
+import { fetch, joinClassNames, roundTwoDecimals } from "../../helpers";
 import styles from "./home.module.scss";
 
 function Home() {
     const [gastos, setGastos] = useState([]);
     const mes = Object.values(meses)[new Date().getMonth()];
+    const history = useHistory();
+    const errorCallback = () => history.push("/login");
+
     useEffect(
         () =>
-            fetch(`/api/reportes/gastos-mes?mes=${mes}`)
-                .then((res) => res.json())
-                .then((report) =>
+            fetch.get(
+                `/api/reportes/gastos-mes?mes=${mes}`,
+                (report) =>
                     setGastos(
                         report
                             .filter((g) => !!g.monto)
@@ -19,8 +23,9 @@ function Home() {
                                 name: g.categoria,
                                 value: roundTwoDecimals(g.monto),
                             }))
-                    )
-                ),
+                    ),
+                errorCallback
+            ),
         [mes]
     );
     return (

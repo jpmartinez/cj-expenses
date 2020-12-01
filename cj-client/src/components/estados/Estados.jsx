@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { fetch } from "../../helpers";
 import Estado from "../ingresar-estado/estado/Estado";
 
 function Estados() {
     const [estados, setEstados] = useState([]);
     const [value, setValue] = useState("");
     const [estado, setEstado] = useState("");
+    const history = useHistory();
+    const errorCallback = () => history.push("/login");
 
-    useEffect(
-        () =>
-            fetch("/api/estados")
-                .then((res) => res.json())
-                .then((estados) => setEstados(estados)),
-        []
-    );
+    useEffect(() => fetch.get("/api/estados", (estados) => setEstados(estados), errorCallback), []);
 
     return (
         <div className="container">

@@ -1,11 +1,13 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const { port } = require("./config");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-const port = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
     console.info(req.method, req.originalUrl);

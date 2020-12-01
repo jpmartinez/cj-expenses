@@ -4,6 +4,7 @@ import Caja from "./components/caja/Caja";
 import Estados from "./components/estados/Estados";
 import Home from "./components/home/Home";
 import IngresarEstado from "./components/ingresar-estado/IngresarEstado";
+import Login from "./components/login/Login";
 import Menu from "./components/menu/Menu";
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
                     </Route>
                     <Route path="/admin">
                         <Home />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
                     </Route>
                     <Route path="/">
                         <Caja />

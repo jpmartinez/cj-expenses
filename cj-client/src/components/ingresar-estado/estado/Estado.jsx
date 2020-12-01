@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { meses } from "../../../constantes";
-import { joinClassNames } from "../../../helpers";
+import { fetch, joinClassNames } from "../../../helpers";
 import styles from "./estado.module.scss";
 
 function Estado({ estado }) {
     const [estadoCuenta, setEstadoCuenta] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
+    const errorCallback = () => history.push("/login");
 
     const onClick = () => {
         setLoading(true);
-        const body = JSON.stringify(estadoCuenta);
-        return fetch(`/api/estados`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body,
-        }).then(() => setLoading(false));
+        return fetch.put(`/api/estados`, estadoCuenta, () => setLoading(false), errorCallback);
     };
 
     const onChange = (id, field) => {
@@ -28,21 +24,17 @@ function Estado({ estado }) {
 
     useEffect(() => {
         setLoading(true);
-
-        fetch(`/api/estados/${estado}`)
-            .then((response) => response.json())
-            .then((estadoCuenta) => {
+        fetch.get(
+            `/api/estados/${estado}`,
+            (estadoCuenta) => {
                 setEstadoCuenta(estadoCuenta);
                 setLoading(false);
-            });
+            },
+            errorCallback
+        );
     }, [estado]);
-    useEffect(
-        () =>
-            fetch("/api/categorias")
-                .then((res) => res.json())
-                .then((categorias) => setCategorias(categorias)),
-        []
-    );
+
+    useEffect(() => fetch.get("/api/categorias", (categorias) => setCategorias(categorias), errorCallback), []);
 
     if (!loading) {
         return (

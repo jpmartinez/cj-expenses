@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { CAT_GASTOS_DEFAULT, meses } from "../../constantes";
+import { fetch } from "../../helpers";
 import { useForm } from "../../hooks";
 
 function Caja() {
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const history = useHistory();
+    const errorCallback = (e) => history.push("/login");
     const mes = Object.values(meses)[new Date().getMonth()];
 
     const [initialData, setInitialData] = useState({
@@ -14,27 +17,18 @@ function Caja() {
         categoria: "",
         monto: "",
     });
+
     //eslint-disable-next-line
     const [onSubmit, onChange, reset, change, { fields, data }] = useForm(() => {
         setLoading(true);
-        return fetch("/api/caja", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then(() => {
-                setLoading(false);
-            })
-            .catch((error) => console.error(error));
+        return fetch.post("/api/caja", data, () => setLoading(false), errorCallback);
     }, initialData);
 
     useEffect(() => {
         setLoading(true);
-        fetch("/api/categorias")
-            .then((res) => res.json())
-            .then((categorias) => {
+        fetch.get(
+            "/api/categorias",
+            (categorias) => {
                 setLoading(false);
                 const categoria = categorias.find((c) => c.nombre === CAT_GASTOS_DEFAULT).id;
                 change("categoria", categoria);
@@ -45,7 +39,9 @@ function Caja() {
                     monto: "",
                 });
                 setCategorias(categorias);
-            });
+            },
+            errorCallback
+        );
         //eslint-disable-next-line
     }, []);
 
