@@ -10,10 +10,7 @@ function UploadForm({ setEstado }) {
     const fileInput = useRef(null);
 
     const initialData = {
-        cuenta: "",
         mes: "",
-        banco: "",
-        moneda: "",
     };
 
     //eslint-disable-next-line

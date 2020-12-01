@@ -1,7 +1,7 @@
 const express = require("express");
 const formidable = require("formidable");
 const router = express.Router();
-const { parseEstado, getEstados, getEstado, updateEstados } = require("../services/estados.service");
+const { parseEstado, getEstados, getEstado, updateEstados } = require("../services/estados/estados.service");
 
 router.get("/", async (req, res) => {
     const estados = await getEstados();
